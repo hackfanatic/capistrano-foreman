@@ -4,6 +4,7 @@ namespace :foreman do
 
         Configurable options are:
 
+          set :foreman_exec, :foreman
           set :foreman_roles, :all
           set :foreman_export_format, 'upstart'
           set :foreman_export_path, '/etc/init'
@@ -35,7 +36,7 @@ namespace :foreman do
         options[:port] = fetch(:foreman_port) if fetch(:foreman_port)
         options[:user] = fetch(:foreman_user) if fetch(:foreman_user)
 
-        execute :foreman, 'export', fetch(:foreman_export_format), fetch(:foreman_export_path),
+        execute fetch(:foreman_exec), 'export', fetch(:foreman_export_format), fetch(:foreman_export_path),
           options.map{ |k, v| "--#{k}='#{v}'" }, fetch(:foreman_flags)
       end
     end
@@ -66,6 +67,7 @@ end
 
 namespace :load do
   task :defaults do
+    set :foreman_exec, :foreman
     set :foreman_roles, :all
     set :foreman_export_format, 'upstart'
     set :foreman_export_path, '/etc/init'

@@ -6,7 +6,7 @@ Foreman support for Capistrano 3
 
 ```ruby
 gem 'capistrano', '~> 3.1'
-gem 'capistrano-foreman', github: 'koenpunt/capistrano-foreman'
+gem 'capistrano-foreman', github: 'hackfanatic/capistrano-foreman'
 ```
 
 And then execute:
@@ -33,6 +33,7 @@ Export Procfile to process management format (defaults to upstart) and restart t
 Configurable options, shown here with defaults:
 
 ```ruby
+set :foreman_exec, :foreman
 set :foreman_roles, :all
 set :foreman_export_format, 'upstart'
 set :foreman_export_path, '/etc/init'
