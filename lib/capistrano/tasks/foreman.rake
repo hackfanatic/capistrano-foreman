@@ -36,8 +36,8 @@ namespace :foreman do
         options[:port] = fetch(:foreman_port) if fetch(:foreman_port)
         options[:user] = fetch(:foreman_user) if fetch(:foreman_user)
 
-        execute fetch(:foreman_exec), 'export', fetch(:foreman_export_format), fetch(:foreman_export_path),
-          options.map{ |k, v| "--#{k}='#{v}'" }, fetch(:foreman_flags)
+
+        execute "cd '#{release_path}';" , fetch(:foreman_exec), 'export', fetch(:foreman_export_format), fetch(:foreman_export_path), options.map{ |k, v| "--#{k}='#{v}'" }, fetch(:foreman_flags)
       end
     end
   end
