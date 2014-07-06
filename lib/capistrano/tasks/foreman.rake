@@ -38,7 +38,7 @@ namespace :foreman do
         options[:user] = fetch(:foreman_user) if fetch(:foreman_user)
 
         execute <<-EOCOMMAND
-          cd #{release_path} && (#{fetch(:rbenvsudo_prefix)} #{fetch(:foreman_exec)} export #{fetch(:foreman_export_format)} #{fetch(:foreman_export_path)} #{options.map{ |k, v| "--#{k}='#{v}'" }.join(" ")} #{fetch(:foreman_flags)})
+          cd #{release_path} && ( #{fetch(:foreman_exec)} export #{fetch(:foreman_export_format)} #{fetch(:foreman_export_path)} #{options.map{ |k, v| "--#{k}='#{v}'" }.join(" ")} #{fetch(:foreman_flags)})
         EOCOMMAND
       end
     end
