@@ -26,18 +26,20 @@ namespace :foreman do
   task :export do
     on roles fetch(:foreman_roles) do
       execute :mkdir, "-p", fetch(:foreman_export_path) unless test "[ -d #{fetch(:foreman_export_path)} ]"
-      within fetch(:foreman_target_path, release_path) do
+      within release_path do
 
         options = {
           app: fetch(:foreman_app),
           log: fetch(:foreman_log)
         }
+
         options[:concurrency] = fetch(:foreman_concurrency) if fetch(:foreman_concurrency)
         options[:port] = fetch(:foreman_port) if fetch(:foreman_port)
         options[:user] = fetch(:foreman_user) if fetch(:foreman_user)
 
-
-        execute "cd '#{release_path}';" , fetch(:foreman_exec), 'export', fetch(:foreman_export_format), fetch(:foreman_export_path), options.map{ |k, v| "--#{k}='#{v}'" }, fetch(:foreman_flags)
+        execute <<-EOCOMMAND
+          cd #{release_path} && (#{fetch(:rbenvsudo_prefix)} #{fetch(:foreman_exec)} export #{fetch(:foreman_export_format)} #{fetch(:foreman_export_path)} #{options.map{ |k, v| "--#{k}='#{v}'" }.join(" ")} #{fetch(:foreman_flags)})
+        EOCOMMAND
       end
     end
   end
